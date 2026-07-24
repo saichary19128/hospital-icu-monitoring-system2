@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 const BedCard = ({ bed, ocr }) => {
+
   const navigate = useNavigate();
 
   const getStatusColor = () => {
@@ -14,11 +15,13 @@ const BedCard = ({ bed, ocr }) => {
       onClick={() => navigate(`/stream/${bed._id}`)}
       style={styles.card}
     >
+
       {/* HEADER */}
       <div style={styles.header}>
-        <h3 style={styles.bed}>Bed {bed.bedNumber}</h3>
+        <h3 style={styles.bed}>
+          Bed {bed.bedNumber}
+        </h3>
 
-        {/* 🔥 CONNECTION */}
         <div style={styles.connectionWrapper}>
           <div
             style={
@@ -31,41 +34,51 @@ const BedCard = ({ bed, ocr }) => {
       </div>
 
       {/* PATIENT */}
-      <p style={styles.patient}>{bed.patientName}</p>
+      <p style={styles.patient}>
+        {bed.patientName}
+      </p>
 
       {/* STATUS */}
-      <p style={{ ...styles.status, color: getStatusColor() }}>
+      <p
+        style={{
+          ...styles.status,
+          color: getStatusColor(),
+        }}
+      >
         ● {bed.status.toUpperCase()}
       </p>
 
-      {/* 🔥 VITALS GRID */}
+      {/* LIVE VITALS */}
+
       <div style={styles.vitals}>
+
         <div style={styles.vitalBox}>
           <span style={styles.label}>HR</span>
           <span style={styles.value}>
-            {ocr?.heartRate ?? "--"}
+            {ocr?.HR || "--"}
           </span>
         </div>
 
         <div style={styles.vitalBox}>
           <span style={styles.label}>BP</span>
           <span style={styles.value}>
-            {ocr?.bp ?? "--"}
+            {ocr?.BP || "--"}
           </span>
         </div>
 
         <div style={styles.vitalBox}>
           <span style={styles.label}>SPO2</span>
           <span style={styles.value}>
-            {ocr?.spo2 ?? "--"}%
+            {ocr?.SPO2 || ocr?.SP02 || "--"}%
           </span>
         </div>
+
       </div>
 
-      {/* FOOTER */}
       <div style={styles.footer}>
+
         <span>
-          Camera:{" "}
+          Camera{" "}
           <b
             style={{
               color:
@@ -79,28 +92,32 @@ const BedCard = ({ bed, ocr }) => {
         </span>
 
         {bed.cameraStatus === "online" && (
-          <span style={styles.live}>● LIVE</span>
+          <span style={styles.live}>
+            ● LIVE
+          </span>
         )}
+
       </div>
+
     </div>
   );
 };
 
 const styles = {
+
   card: {
     width: "300px",
     height: "220px",
     padding: "15px",
     borderRadius: "12px",
     cursor: "pointer",
-
-    background: "linear-gradient(145deg, #020617, #0f172a)",
+    background:
+      "linear-gradient(145deg,#020617,#0f172a)",
     color: "#e2e8f0",
-
-    boxShadow: "0 10px 25px rgba(0,0,0,0.6)",
-    border: "1px solid rgba(255,255,255,0.08)",
-
-    transition: "0.25s ease",
+    boxShadow:
+      "0 10px 25px rgba(0,0,0,.6)",
+    border:
+      "1px solid rgba(255,255,255,.08)",
   },
 
   header: {
@@ -111,13 +128,11 @@ const styles = {
 
   bed: {
     margin: 0,
-    fontSize: "18px",
   },
 
   patient: {
-    margin: "6px 0",
-    fontSize: "14px",
-    color: "#cbd5f5",
+    margin: "8px 0",
+    color: "#cbd5e1",
   },
 
   status: {
@@ -128,7 +143,7 @@ const styles = {
   vitals: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "12px",
+    marginTop: "20px",
   },
 
   vitalBox: {
@@ -138,18 +153,18 @@ const styles = {
   },
 
   label: {
-    fontSize: "15px",
     color: "#94a3b8",
+    fontSize: "14px",
   },
 
   value: {
-    fontSize: "16px",
-    fontWeight: "bold",
     color: "#22c55e",
+    fontWeight: "bold",
+    fontSize: "18px",
   },
 
   footer: {
-    marginTop: "12px",
+    marginTop: "20px",
     display: "flex",
     justifyContent: "space-between",
     fontSize: "13px",
@@ -158,7 +173,6 @@ const styles = {
   live: {
     color: "#22c55e",
     fontWeight: "bold",
-    animation: "blink 1s infinite",
   },
 
   connectionWrapper: {
@@ -172,7 +186,6 @@ const styles = {
     borderRadius: "50%",
     background: "#22c55e",
     boxShadow: "0 0 10px #22c55e",
-    animation: "pulse 1.5s infinite",
   },
 
   offlineDot: {
@@ -181,6 +194,7 @@ const styles = {
     borderRadius: "50%",
     background: "#ef4444",
   },
+
 };
 
 export default BedCard;

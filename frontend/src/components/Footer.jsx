@@ -11,7 +11,7 @@ const Footer = () => {
       }}
     >
       <div style={{ color: 'white' }}>
-        Hospital ICU Monitoring System © {new Date().getFullYear()}
+        Hospital ICU Monitoring System ©{new Date().getFullYear()}
         <p> All Rights Reserved by MedDev Team.</p>
       </div>
     </div>
