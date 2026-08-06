@@ -61,6 +61,11 @@ app.get("/", (req, res) => {
   res.send("API Running 🚀");
 });
 
+
+const Bed = require("./models/Bed");
+const {
+  startWorker,
+} = require("./workers/workerManager");
 // =============================
 // Start Flask Automatically
 // =============================
@@ -114,6 +119,34 @@ process.on("SIGTERM", () => {
 // =============================
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+server.listen(PORT, async () => {
+
+  console.log(`🚀 Server running on ${PORT}`);
+
+  try {
+
+    const beds = await Bed.find();
+
+    console.log(`Found ${beds.length} beds`);
+
+    for (const bed of beds) {
+
+      if (
+        bed.cameraStatus === "online" &&
+        bed.streamUrl &&
+        bed.streamUrl.trim() !== ""
+      ) {
+
+        startWorker(bed);
+
+      }
+
+    }
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
 });
